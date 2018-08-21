@@ -14,5 +14,15 @@ namespace BankApp.Models
         public int AddressStreetNumber { get; set; }
         public string AddressCity { get; set; }
         public string AddressPostalCode { get; set; }
+
+        public void Display()
+        {
+            Console.WriteLine("displaying Bank site...");
+            Console.WriteLine($"Id :{Id}");
+            Console.WriteLine($"Name :{Name}");
+            Console.WriteLine($"AddressStreet :{AddressStreet}");
+            Console.WriteLine($"AddressCity :{AddressCity}");
+            Console.WriteLine($"AddressPostalCode :{AddressPostalCode}");
+        }
     }
 }

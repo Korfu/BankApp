@@ -15,5 +15,17 @@ namespace BankApp.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public DateTime TimeCreated { get; set; }
+
+        public void Display()
+        {
+            Console.WriteLine("displaying Bank site...");
+            Console.WriteLine($"Id :{Id}");
+            Console.WriteLine($"SourceAccountNumber :{SourceAccountNumber}");
+            Console.WriteLine($"TargetAccountNumber :{TargetAccountNumber}");
+            Console.WriteLine($"Value :{Value}");
+            Console.WriteLine($"Title :{Title}");
+            Console.WriteLine($"Description :{Description}");
+            Console.WriteLine($"TimeCreated :{TimeCreated}");
+        }
     }
 }

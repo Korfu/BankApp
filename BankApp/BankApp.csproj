@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\Factory.cs" />
     <Compile Include="Models\Account.cs" />
     <Compile Include="Models\BankSite.cs" />
     <Compile Include="Models\BankTransfer.cs" />
@@ -61,7 +62,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ExcelHelper\" />
-    <Folder Include="Factories\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

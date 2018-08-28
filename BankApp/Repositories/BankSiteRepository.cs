@@ -3,13 +3,7 @@ using BankApp.Models;
 
 namespace BankApp.Repositories
 {
-    public interface IBankSiteRepository
-    {
-        void Add(BankSite banksite);
-        IEnumerable<BankSite> GetAll();
-    }
-
-    public class BankSiteRepository : IBankSiteRepository
+    public class BankSitesRepository : IBankSitesRepository
     {
         private static List<BankSite> _allBankSites = new List<BankSite>();
 
@@ -21,5 +15,11 @@ namespace BankApp.Repositories
         {
             return _allBankSites;
         }
+    }
+
+    public interface IBankSitesRepository
+    {
+        void Add(BankSite banksite);
+        IEnumerable<BankSite> GetAll();
     }
 }

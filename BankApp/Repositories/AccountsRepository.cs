@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BankApp.Models;
 
 namespace BankApp.Repositories
 {
-    public  interface IAccountRepository
-    {
-        void Add(Account account);
-        IEnumerable<Account> GetAll();
-    }
 
-    public class AccountRepository : IAccountRepository
+    public class AccountsRepository : IAccountsRepository
     {
         private static List<Account> _allAccounts = new List<Account>();
 
@@ -24,10 +16,15 @@ namespace BankApp.Repositories
             }
         public IEnumerable<Account> GetAll()
         {
-            return _allAccounts;
+            return _allAccounts.ToList();
         }
     }
 
+    public interface IAccountsRepository
+    {
+        void Add(Account account);
+        IEnumerable<Account> GetAll();
+    }
 
-    
+
 }

@@ -7,13 +7,7 @@ using BankApp.Models;
 
 namespace BankApp.Repositories
 {
-    public interface IBankTransferRepository
-    {
-        void Add(BankTransfer bankTransfer);
-        IEnumerable<BankTransfer> GetAll();
-    }
-
-    public class BankTransferRepository : IBankTransferRepository
+    public class BankTransfersRepository : IBankTransfersRepository
     {
         private static List<BankTransfer> _allBankTransfers = new List<BankTransfer>();
 
@@ -27,5 +21,9 @@ namespace BankApp.Repositories
             return _allBankTransfers;
         }
     }
-
+    public interface IBankTransfersRepository
+    {
+        void Add(BankTransfer bankTransfer);
+        IEnumerable<BankTransfer> GetAll();
+    }
 }

@@ -1,15 +1,13 @@
-﻿using BankApp.Factories;
-using BankApp.Repositories;
-using System;
+﻿using System;
+using BankApp.Helpers;
+using Unity;
+using BankApp.Commands;
 
 namespace BankApp
 {
     public class Program
     {
-        private static readonly AccountRepository _accountRepository = new AccountRepository();
-        private static readonly BankSiteRepository _bankSiteRepository  = new BankSiteRepository();
-        private static readonly BankTransferRepository _bankTransferRepository  = new BankTransferRepository();
-        private static readonly Factory _factory = new Factory();
+        private static readonly IConsoleHelper _consoleHelper = IoC.Container.Resolve<IConsoleHelper>();
 
         [STAThread]
         public static void Main(string[] args)
@@ -20,37 +18,8 @@ namespace BankApp
                 try
                 {
                     DisplayMainMenu();
-
-                    var chosenOption = Console.ReadKey(true);
-                    
-
-                    switch (chosenOption.Key)
-                    {
-                        case ConsoleKey.D1:
-                             var newAccount = _factory.CreateAccount();
-                            _accountRepository.Add(newAccount);
-                            break;
-                        case ConsoleKey.D2:
-                            var newBankSite = _factory.CreateBankSite();
-                            _bankSiteRepository.Add(newBankSite);
-                            break;
-                        case ConsoleKey.D3:
-                            var newBankTransfer = _factory.CreateBankTransfer();
-                            _bankTransferRepository.Add(newBankTransfer);
-                            break;
-                        case ConsoleKey.D4:
-                            DisplayAllAccounts();
-                            break;
-                        case ConsoleKey.D5:
-                            DisplayAllBankSites();
-                            break;
-                        case ConsoleKey.D6:
-                            DisplayAllBankTransfers();
-                            break;
-                        default:
-                            Console.WriteLine("Wrong option chosen!");
-                            break;
-                    }
+                    ChooseMainMenuItem();
+                    _consoleHelper.WriteLine("Press escape to exit or any key to go again");
                 }
                 catch (Exception ex)
                 {
@@ -61,50 +30,44 @@ namespace BankApp
                 {
                     Console.WriteLine("Press escape to exit or any other key to go again");
                 }
-            } while (Console.ReadKey().Key != ConsoleKey.Escape);
+            } while (_consoleHelper.ReadKey() != ConsoleKey.Escape);
         }
 
         private static void DisplayMainMenu()
         {
-            Console.WriteLine("Hello to Excel Uploader!");
-            Console.WriteLine("What do you want to do?");
-            Console.WriteLine("1) Create an Account");
-            Console.WriteLine("2) Create a Bank site"); ;
-            Console.WriteLine("3) Create a Bank transfer");
-            Console.WriteLine("4) Display all Accounts");
-            Console.WriteLine("5) Display all Bank sites");
-            Console.WriteLine("6) Display all Bank transfers");
+            _consoleHelper.WriteLine("Main menu:");
+            _consoleHelper.WriteLine("1) Create entity");
+            _consoleHelper.WriteLine("2) Display entities");
+            _consoleHelper.WriteLine("3) Download excel template");
+            _consoleHelper.WriteLine("4) Import data from excel template");
         }
 
-        private static void DisplayAllAccounts()
+        private static void ChooseMainMenuItem()
         {
-            Console.WriteLine("Displaying all Accounts");
-            var accountsList = _accountRepository.GetAll();
-            foreach (var account in accountsList)
+            var chosenOption = _consoleHelper.ReadKey();
+            switch (chosenOption)
             {
-                account.Display();
+                case ConsoleKey.D1:
+                    IoC.Container.Resolve<ICreateEntityCommand>().Execute();
+                    break;
+                case ConsoleKey.D2:
+                    IoC.Container.Resolve<IDisplayEntitiesCommand>().Execute();
+                    break;
+                case ConsoleKey.D3:
+                    IoC.Container.Resolve<IGetExcelTemplateCommand>().Execute();
+                    break;
+                case ConsoleKey.D4:
+                    IoC.Container.Resolve<IGetDataFromExcelTemplateCommand>().Execute();
+                    break;
+                case ConsoleKey.Escape:
+                    _consoleHelper.WriteLine("Exiting...");
+                    break;
+                default:
+                    _consoleHelper.WriteLine("Wrong input, please try again");
+                    _consoleHelper.WriteLine("");
+                    ChooseMainMenuItem();
+                    break;
             }
         }
-
-        private static void DisplayAllBankSites()
-        {
-            Console.WriteLine("Displaying all Bank sites");
-            var bankSitesList = _bankSiteRepository.GetAll();
-            foreach (var bankSite in bankSitesList)
-            {
-                bankSite.Display();
-            }
-        }
-
-        private static void DisplayAllBankTransfers()
-        {
-            Console.WriteLine("Displaying all Bank transfers");
-            var bankTransfersList = _bankTransferRepository.GetAll();
-            foreach (var bankTransfer in bankTransfersList)
-            {
-                bankTransfer.Display();
-            }
-        }
-
     }
 }
